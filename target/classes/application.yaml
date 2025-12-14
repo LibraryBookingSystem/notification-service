@@ -40,11 +40,17 @@ spring:
             enable: true
     from: ${MAIL_FROM:noreply@library-system.edu}
 
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-jwt-key-for-library-booking-system-2024}
+  expiration: ${JWT_EXPIRATION:3600000}
+
 # Logging
 logging:
   level:
     com.library: DEBUG
     org.springframework: INFO
+
 
 
 
