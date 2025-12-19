@@ -18,41 +18,41 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/notifications")
 public class NotificationController {
-    
+
     private final NotificationService notificationService;
-    
+
     public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
-    
+
     /**
      * Get notifications by user ID
      * GET /api/notifications/user/{userId}
      * Authorization: AUTHENTICATED
-     * Resource Ownership: Users can only view their own notifications, Admins can view any
+     * Resource Ownership: Users can only view their own notifications, Admins can
+     * view any
      */
     @GetMapping("/user/{userId}")
-    @RequiresRole
     @RequiresOwnership(resourceIdParam = "userId")
     public ResponseEntity<List<NotificationResponse>> getNotificationsByUserId(@PathVariable Long userId) {
         List<NotificationResponse> notifications = notificationService.getNotificationsByUserId(userId);
         return ResponseEntity.ok(notifications);
     }
-    
+
     /**
      * Get unread notifications by user ID
      * GET /api/notifications/user/{userId}/unread
      * Authorization: AUTHENTICATED
-     * Resource Ownership: Users can only view their own notifications, Admins can view any
+     * Resource Ownership: Users can only view their own notifications, Admins can
+     * view any
      */
     @GetMapping("/user/{userId}/unread")
-    @RequiresRole
     @RequiresOwnership(resourceIdParam = "userId")
     public ResponseEntity<List<NotificationResponse>> getUnreadNotificationsByUserId(@PathVariable Long userId) {
         List<NotificationResponse> notifications = notificationService.getUnreadNotificationsByUserId(userId);
         return ResponseEntity.ok(notifications);
     }
-    
+
     /**
      * Get unread count for a user
      * GET /api/notifications/user/{userId}/unread/count
@@ -60,18 +60,18 @@ public class NotificationController {
      * Resource Ownership: Users can only view their own count, Admins can view any
      */
     @GetMapping("/user/{userId}/unread/count")
-    @RequiresRole
     @RequiresOwnership(resourceIdParam = "userId")
     public ResponseEntity<Map<String, Long>> getUnreadCount(@PathVariable Long userId) {
         long count = notificationService.getUnreadCount(userId);
         return ResponseEntity.ok(Map.of("count", count));
     }
-    
+
     /**
      * Mark notification as read
      * PUT /api/notifications/{id}/read
      * Authorization: AUTHENTICATED
-     * Resource Ownership: Users can only mark their own notifications as read, Admins can mark any
+     * Resource Ownership: Users can only mark their own notifications as read,
+     * Admins can mark any
      */
     @PutMapping("/{id}/read")
     @RequiresRole
@@ -80,12 +80,13 @@ public class NotificationController {
         NotificationResponse response = notificationService.markAsRead(id);
         return ResponseEntity.ok(response);
     }
-    
+
     /**
      * Mark all notifications as read for a user
      * PUT /api/notifications/user/{userId}/read-all
      * Authorization: AUTHENTICATED
-     * Resource Ownership: Users can only mark their own notifications as read, Admins can mark any
+     * Resource Ownership: Users can only mark their own notifications as read,
+     * Admins can mark any
      */
     @PutMapping("/user/{userId}/read-all")
     @RequiresRole
@@ -94,7 +95,7 @@ public class NotificationController {
         notificationService.markAllAsRead(userId);
         return ResponseEntity.noContent().build();
     }
-    
+
     /**
      * Health check endpoint
      * GET /api/notifications/health
