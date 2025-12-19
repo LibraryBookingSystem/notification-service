@@ -40,6 +40,9 @@ spring:
             enable: true
     from: ${MAIL_FROM:noreply@library-system.edu}
 
+# External service URLs
+user-service-url: ${USER_SERVICE_URL:http://localhost:3001}
+
 # JWT Configuration
 jwt:
   secret: ${JWT_SECRET:my-super-secret-jwt-key-for-library-booking-system-2024}
